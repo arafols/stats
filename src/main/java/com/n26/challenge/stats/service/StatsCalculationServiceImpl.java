@@ -63,12 +63,14 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	public Statistics performCalculations() {
 		List<Transaction> transactionsHappened = getStatisticTransactions(System.currentTimeMillis());
 		
-		Statistics freshStats = new Statistics();
+		final Statistics freshStats = new Statistics();
 		
 		int count = transactionsHappened.size();
-		freshStats.setCount(transactionsHappened.size());
+		
+		freshStats.setCount(count);
 		
 		Optional<BigDecimal> sum = transactionsHappened.parallelStream().filter(Objects::nonNull).map(Transaction::getAmount).reduce(BigDecimal::add);
+		
 		if(sum.isPresent()) {
 			freshStats.setSum(sum.get());
 			
@@ -105,6 +107,7 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	 */
 	@Override
 	public Statistics readStatistics() {
+		
 		return stats;
 	}
 
@@ -113,6 +116,7 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	 * @return
 	 */
 	private List<Transaction> getStatisticTransactions(Long timestamp){
+		
 		Instant timeKey = Instant.ofEpochMilli(timestamp).truncatedTo(ChronoUnit.SECONDS);
 		
 		List<Transaction> lastMinTransactions = new ArrayList<>();
