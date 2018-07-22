@@ -24,8 +24,8 @@ public class StatsController {
 	@RequestMapping(method = RequestMethod.GET, path = "/statistics", produces = APPLICATION_JSON_UTF8_VALUE)
 	public Statistics statistics() {
 		//TODO: restore readStatistics, remove direct performCalculations
-//		return calculationService.readStatistics();
-		return calculationService.performCalculations();
+		return calculationService.readStatistics();
+//		return calculationService.performCalculations();
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = "/transactions", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)

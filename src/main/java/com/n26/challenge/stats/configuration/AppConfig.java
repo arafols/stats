@@ -53,10 +53,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		ScheduledExecutorService executor = scheduler();
 //		statisticsFactory();
 		
-				
+		//TODO: Replace Runnable with a Callable so that when reading the stats the result is ready and no past calculation is read
 		Runnable task = () -> {
 			//TODO: restore write!! 
-//			calculations.writeStatistics(calculations.performCalculations());
+			calculations.writeStatistics(calculations.performCalculations());
 			System.out.println("running");
 			 
 		};
