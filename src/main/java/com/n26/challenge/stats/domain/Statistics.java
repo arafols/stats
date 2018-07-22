@@ -13,9 +13,7 @@ public class Statistics implements Serializable {
 	private BigDecimal min;
 	private long count;
 	
-	public Statistics() {
-
-	}
+	public Statistics() {}
 
 	public BigDecimal getSum() {
 		return sum;

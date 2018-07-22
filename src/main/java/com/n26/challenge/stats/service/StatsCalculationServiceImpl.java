@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import com.n26.challenge.stats.exception.OldTransactionException;
 @Service
 public class StatsCalculationServiceImpl implements StatsCalculationService {
 
+	private static final Logger log = LoggerFactory.getLogger(StatsCalculationServiceImpl.class);
+	
 	//concurrent and thread-safe, no need to use synchronized
 	private static ConcurrentHashMap<Long, List<Transaction>> transactions = new ConcurrentHashMap<>();
 
@@ -31,8 +35,8 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	@Override
 	public void putTransaction(final Transaction t){
 
-		final Instant lowTimeBoundary = Instant.now().minus(1, ChronoUnit.MINUTES);
 		final Instant transactionTimestamp = Instant.ofEpochMilli(t.getTimestamp());
+		final Instant lowTimeBoundary = Instant.now().minus(1, ChronoUnit.MINUTES);
 
 		if(transactionTimestamp.isBefore(lowTimeBoundary)){
 			throw new OldTransactionException();
@@ -117,7 +121,9 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 		List<Transaction> temp;
 
 		for (int i = 0; i < 60; i++) {
-//			System.out.println(timeKey.minus(1L*i,ChronoUnit.SECONDS ).getEpochSecond());
+			
+			log.debug("{}", timeKey.minus(1L*i,ChronoUnit.SECONDS ));
+			
 			temp = transactions.get((timeKey.minus(1L*i,ChronoUnit.SECONDS )).getEpochSecond());
 			
 			if(temp != null && !temp.isEmpty()) {

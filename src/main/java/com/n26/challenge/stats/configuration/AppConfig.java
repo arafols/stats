@@ -14,10 +14,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.n26.challenge.stats.service.StatsCalculationService;
 
+/**
+ * Setup for the application, adds a thread to calculate the stats every second, so that the actual endpoint just reads the result with cost O(1).
+ * ScheduledExecutorService makes it possible by running the calculation every second in the background
+ * @author agusti
+ *
+ */
 @Configuration
 public class AppConfig extends WebMvcConfigurerAdapter {
-	
-	
 	
 	@Autowired
 	private StatsCalculationService calculations;
@@ -26,43 +30,23 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Primary
 	public ScheduledExecutorService scheduler() {
 		
-		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		return Executors.newScheduledThreadPool(1);
 
-		return executor;
 	}
-	
-	
-//	@Bean
-//	public /*static*/ void statisticsFactory() {
-////		if(stats == null) {
-////			
-////			synchronized (Statistics.class) {
-//				if(stats == null) {
-//					stats = new Statistics();
-//				}
-//				
-//				
-////			}
-////		}
-////		return stats;
-//	}
 	
 	@PostConstruct
 	public void startCalculations() {
 		
 		ScheduledExecutorService executor = scheduler();
-//		statisticsFactory();
 		
-		//TODO: Replace Runnable with a Callable so that when reading the stats the result is ready and no past calculation is read
+		//TODO: See how to replace Runnable with a Callable so that when reading the stats the result is ready and no past calculation is read
 		Runnable task = () -> {
-			//TODO: restore write!! 
+
 			calculations.writeStatistics(calculations.performCalculations());
-			System.out.println("running");
 			 
 		};
-		int initialDelay = 1;
-		int period = 1;
-		executor.scheduleAtFixedRate(task, initialDelay, period, TimeUnit.SECONDS);
+
+		executor.scheduleAtFixedRate(task, 1, 1, TimeUnit.SECONDS);
 	}
 	
 	

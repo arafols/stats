@@ -19,10 +19,16 @@ import com.n26.challenge.stats.domain.Statistics;
 import com.n26.challenge.stats.domain.Transaction;
 import com.n26.challenge.stats.exception.OldTransactionException;
 
+
+/**
+ * Stats Service tests 
+ * @author agusti
+ *
+ */
 @RunWith(SpringRunner.class)
 public class StatsCalculationServiceTests {
 
-	Transaction t1, t2, t3;
+	Transaction t1, t2, t3, t4;
 	
 	@InjectMocks
 	private StatsCalculationService statsCalculationService = new StatsCalculationServiceImpl();
@@ -34,6 +40,10 @@ public class StatsCalculationServiceTests {
 	}
 
 	
+	/**
+	 * Insert some transactions and see they are stored
+	 * @throws Exception
+	 */
 	@Test
 	public void putTransactionTest() throws Exception{
 		
@@ -56,6 +66,31 @@ public class StatsCalculationServiceTests {
 		
 	}
 	
+	/**
+	 * Insert 2 transactions belonging to different second, check they are stored under different keys
+	 * @throws Exception
+	 */
+	@Test
+	public void transactionKeysOccupationTest() throws Exception{
+		
+		sanitize();
+		
+		statsCalculationService.putTransaction(t1);
+		statsCalculationService.putTransaction(t4);
+		
+		Field transactions = StatsCalculationServiceImpl.class.getDeclaredField("transactions");
+		transactions.setAccessible(true);
+		
+		ConcurrentHashMap<Long, List<Transaction>> savedTransactions = (ConcurrentHashMap<Long, List<Transaction>>)transactions.get(null);
+		
+		assertTrue(savedTransactions.keySet().size() == 2);
+		
+	}
+	
+	/**
+	 * Insert a few elements and verify the calculations are fine for the stats
+	 * @throws Exception
+	 */
 	@Test
 	public void performCalculationsTest() throws Exception{
 		
@@ -74,6 +109,10 @@ public class StatsCalculationServiceTests {
 		assertTrue(current.getAvg().equals(BigDecimal.valueOf(7.0)));
 	}
 	
+	/**
+	 * Throw 204 when timestamp belongs to the past beyond the statistics range
+	 * @throws OldTransactionException
+	 */
 	@Test(expected = OldTransactionException.class)
 	public void handlePastTimestampTest() throws OldTransactionException {
 		
@@ -83,6 +122,10 @@ public class StatsCalculationServiceTests {
 		
 	}
 	
+	/**
+	 * Verify the Transactions inserted are recovered for the calculation of the relevant period
+	 * @throws Exception
+	 */
 	@Test
 	public void getStatisticTransactionsTest() throws Exception{
 		
@@ -103,6 +146,9 @@ public class StatsCalculationServiceTests {
         assertTrue(currentStatTransactions.contains(t2));
 	}
 
+	/**
+	 * set some data for the tests
+	 */
 	private void setupTransactions(){
 
 		long timestamp = System.currentTimeMillis();
@@ -110,8 +156,15 @@ public class StatsCalculationServiceTests {
 		t1 = new Transaction( timestamp, BigDecimal.valueOf(12.3));
 		t2 = new Transaction( System.currentTimeMillis(), BigDecimal.valueOf(2.3));
 		t3 = new Transaction( System.currentTimeMillis(), BigDecimal.valueOf(6.4));
+		
+		long timestamp2 = System.currentTimeMillis()+3000L;
+		t4 = new Transaction( timestamp2, BigDecimal.ZERO);
 	}
 	
+	/**
+	 * clean the shared data structure after every test to make sure the tests done fail because of dirty data
+	 * @throws Exception
+	 */
 	private void sanitize() throws Exception{
 		
 		Field transactions = StatsCalculationServiceImpl.class.getDeclaredField("transactions");

@@ -15,6 +15,11 @@ import com.n26.challenge.stats.domain.Statistics;
 import com.n26.challenge.stats.domain.Transaction;
 import com.n26.challenge.stats.service.StatsCalculationService;
 
+/**
+ * API for the statistics published endpoints
+ * @author agusti
+ *
+ */
 @RestController
 public class StatsController {
 
@@ -23,9 +28,8 @@ public class StatsController {
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/statistics", produces = APPLICATION_JSON_UTF8_VALUE)
 	public Statistics statistics() {
-		//TODO: restore readStatistics, remove direct performCalculations
+		
 		return calculationService.readStatistics();
-//		return calculationService.performCalculations();
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = "/transactions", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)

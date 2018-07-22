@@ -8,28 +8,33 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * Helper tests to understand how to manage timestamps properly and be able to use them as keys for the service ConcurrentHashMap
+ * @author agusti
+ *
+ */
 public class TimeStampTest {
 
 	@Test
+	@Ignore
 	public void RoundToSecondLocalDateTimetest() {
-//		fail("Not yet implemented");
+
 		LocalDateTime ts = LocalDateTime.of(2013, 12, 18, 14, 30, 40);
 		LocalDateTime roundTs = 
 				ts.truncatedTo(ChronoUnit.MINUTES);
 		LocalDateTime tsRounded = 
 				LocalDateTime.of(2013, 12, 18, 14, 30, 00);
-//		
-//		ts.get
-//		System.out.println(roundTs.getSecond());
+
 		System.out.println(roundTs.toInstant(ZoneOffset.UTC).toEpochMilli());
-//		System.out.println(tsRounded.getSecond());
 		System.out.println(tsRounded.toInstant(ZoneOffset.UTC).toEpochMilli());//long
 		assertEquals(roundTs, tsRounded);	
 	
 	}
 	
+	@Ignore
 	@Test
 	public void RoundToSecondInstantest() {
 		long millis = System.currentTimeMillis() ;
@@ -41,11 +46,11 @@ public class TimeStampTest {
 //		assertEquals(0, instantTrunc.get(ChronoField.SECOND_OF_DAY));	
 	}
 	
+	@Ignore
 	@Test
 	public void calculate60SecondsBackwards() {
 		
 		Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
-//		Instant instantTrunc = instant.truncatedTo( ChronoUnit.SECONDS ) ;
 
 		System.out.println(instant.truncatedTo( ChronoUnit.SECONDS ).with(ChronoField.NANO_OF_SECOND, 0L).getEpochSecond());
 		
