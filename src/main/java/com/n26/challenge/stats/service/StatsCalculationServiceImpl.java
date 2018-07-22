@@ -1,6 +1,7 @@
 package com.n26.challenge.stats.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -24,39 +25,6 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 
 	private static Statistics stats = null;
 	
-	/* (non-Javadoc)
-	 * @see com.n26.challenge.stats.service.StatsCalculationService#performCalculations()
-	 */
-	@Override
-	public Statistics performCalculations() {
-		List<Transaction> transactionsHappened = getStatisticTransactions(System.currentTimeMillis());
-		
-		Statistics freshStats = new Statistics();
-		
-		int count = transactionsHappened.size();
-		freshStats.setCount(transactionsHappened.size());
-		
-		Optional<BigDecimal> sum = transactionsHappened.parallelStream().filter(Objects::nonNull).map(Transaction::getAmount).reduce(BigDecimal::add);
-		if(sum.isPresent()) {
-			freshStats.setSum(sum.get());
-			
-			BigDecimal avg = sum.get().divide(BigDecimal.valueOf(count));
-			freshStats.setAvg(avg);
-		}
-		
-		Optional<BigDecimal> max = transactionsHappened.parallelStream().filter(Objects::nonNull).map(Transaction::getAmount).reduce(BigDecimal::max);
-		if(max.isPresent()) {
-			freshStats.setMax(max.get());
-		}
-		
-		Optional<BigDecimal> min = transactionsHappened.parallelStream().filter(Objects::nonNull).map(Transaction::getAmount).reduce(BigDecimal::min);
-		if(min.isPresent()) {
-			freshStats.setMin(min.get());
-		}
-		
-		return freshStats;
-	}
-
 	/* (non-Javadoc)
 	 * @see com.n26.challenge.stats.service.StatsCalculationService#putTransaction(com.n26.challenge.stats.domain.Transaction)
 	 */
@@ -82,6 +50,39 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 			
 			transactions.get(timeKey.getEpochSecond()).add(t);			
 		}	
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.n26.challenge.stats.service.StatsCalculationService#performCalculations()
+	 */
+	@Override
+	public Statistics performCalculations() {
+		List<Transaction> transactionsHappened = getStatisticTransactions(System.currentTimeMillis());
+		
+		Statistics freshStats = new Statistics();
+		
+		int count = transactionsHappened.size();
+		freshStats.setCount(transactionsHappened.size());
+		
+		Optional<BigDecimal> sum = transactionsHappened.parallelStream().filter(Objects::nonNull).map(Transaction::getAmount).reduce(BigDecimal::add);
+		if(sum.isPresent()) {
+			freshStats.setSum(sum.get());
+			
+			BigDecimal avg = sum.get().divide(BigDecimal.valueOf(count), RoundingMode.HALF_EVEN);
+			freshStats.setAvg(avg);
+		}
+		
+		Optional<BigDecimal> max = transactionsHappened.parallelStream().filter(Objects::nonNull).map(Transaction::getAmount).reduce(BigDecimal::max);
+		if(max.isPresent()) {
+			freshStats.setMax(max.get());
+		}
+		
+		Optional<BigDecimal> min = transactionsHappened.parallelStream().filter(Objects::nonNull).map(Transaction::getAmount).reduce(BigDecimal::min);
+		if(min.isPresent()) {
+			freshStats.setMin(min.get());
+		}
+		
+		return freshStats;
 	}
 	
 	/* (non-Javadoc)
