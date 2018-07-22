@@ -9,5 +9,5 @@
 
 * 	Endpoints:
 
-	localhost:8080/transactions
-	localhost:8080/statistics
+	+ localhost:8080/transactions
+	+ localhost:8080/statistics
