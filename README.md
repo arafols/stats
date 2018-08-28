@@ -1,4 +1,4 @@
-# Transaction Statistics Code Challenge
+# Transaction Statistics 
 
 
 *	Build by running: **mvn clean package**
