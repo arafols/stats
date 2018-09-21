@@ -1,4 +1,4 @@
-package com.n26.challenge.stats;
+package com.banking.challenge.stats;
 
 import static org.junit.Assert.assertEquals;
 

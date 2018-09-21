@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.n26.challenge</groupId>
+	<groupId>com.banking.challenge</groupId>
 	<artifactId>stats</artifactId>
 	<version>0.0.1-RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>stats</name>
-	<description>N26 Technical Challenge</description>
+	<description>Banking Technical Challenge</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

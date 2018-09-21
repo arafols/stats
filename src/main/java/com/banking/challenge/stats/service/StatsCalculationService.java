@@ -1,7 +1,7 @@
-package com.n26.challenge.stats.service;
+package com.banking.challenge.stats.service;
 
-import com.n26.challenge.stats.domain.Statistics;
-import com.n26.challenge.stats.domain.Transaction;
+import com.banking.challenge.stats.domain.Statistics;
+import com.banking.challenge.stats.domain.Transaction;
 
 public interface StatsCalculationService {
 

@@ -1,4 +1,4 @@
-package com.n26.challenge.stats.configuration;
+package com.banking.challenge.stats.configuration;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.n26.challenge.stats.service.StatsCalculationService;
+import com.banking.challenge.stats.service.StatsCalculationService;
 
 /**
  * Setup for the application, adds a thread to calculate the stats every second, so that the actual endpoint just reads the result with cost O(1).

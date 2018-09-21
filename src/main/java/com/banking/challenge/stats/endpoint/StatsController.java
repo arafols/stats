@@ -1,4 +1,4 @@
-package com.n26.challenge.stats.endpoint;
+package com.banking.challenge.stats.endpoint;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.n26.challenge.stats.domain.Statistics;
-import com.n26.challenge.stats.domain.Transaction;
-import com.n26.challenge.stats.service.StatsCalculationService;
+import com.banking.challenge.stats.domain.Statistics;
+import com.banking.challenge.stats.domain.Transaction;
+import com.banking.challenge.stats.service.StatsCalculationService;
 
 /**
  * API for the statistics published endpoints

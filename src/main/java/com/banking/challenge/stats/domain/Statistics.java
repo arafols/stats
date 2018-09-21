@@ -1,4 +1,4 @@
-package com.n26.challenge.stats.domain;
+package com.banking.challenge.stats.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

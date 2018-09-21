@@ -1,4 +1,4 @@
-package com.n26.challenge.stats.exception;
+package com.banking.challenge.stats.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

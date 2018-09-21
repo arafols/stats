@@ -1,4 +1,4 @@
-package com.n26.challenge.stats.service;
+package com.banking.challenge.stats.service;
 
 import static org.junit.Assert.assertTrue;
 
@@ -15,9 +15,11 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.n26.challenge.stats.domain.Statistics;
-import com.n26.challenge.stats.domain.Transaction;
-import com.n26.challenge.stats.exception.OldTransactionException;
+import com.banking.challenge.stats.domain.Statistics;
+import com.banking.challenge.stats.domain.Transaction;
+import com.banking.challenge.stats.exception.OldTransactionException;
+import com.banking.challenge.stats.service.StatsCalculationService;
+import com.banking.challenge.stats.service.StatsCalculationServiceImpl;
 
 
 /**

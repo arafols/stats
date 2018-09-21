@@ -1,4 +1,4 @@
-package com.n26.challenge.stats.service;
+package com.banking.challenge.stats.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
-import com.n26.challenge.stats.domain.Statistics;
-import com.n26.challenge.stats.domain.Transaction;
-import com.n26.challenge.stats.exception.OldTransactionException;
+import com.banking.challenge.stats.domain.Statistics;
+import com.banking.challenge.stats.domain.Transaction;
+import com.banking.challenge.stats.exception.OldTransactionException;
 
 @Service
 public class StatsCalculationServiceImpl implements StatsCalculationService {
@@ -30,7 +30,7 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	private static Statistics stats = null;
 	
 	/* (non-Javadoc)
-	 * @see com.n26.challenge.stats.service.StatsCalculationService#putTransaction(com.n26.challenge.stats.domain.Transaction)
+	 * @see com.banking.challenge.stats.service.StatsCalculationService#putTransaction(com.banking.challenge.stats.domain.Transaction)
 	 */
 	@Override
 	public void putTransaction(final Transaction t){
@@ -57,7 +57,7 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.n26.challenge.stats.service.StatsCalculationService#performCalculations()
+	 * @see com.banking.challenge.stats.service.StatsCalculationService#performCalculations()
 	 */
 	@Override
 	public Statistics performCalculations() {
@@ -92,7 +92,7 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.n26.challenge.stats.service.StatsCalculationService#writeStatistics(com.n26.challenge.stats.domain.Statistics)
+	 * @see com.banking.challenge.stats.service.StatsCalculationService#writeStatistics(com.banking.challenge.stats.domain.Statistics)
 	 */
 	@Override
 	public  void writeStatistics(Statistics freshStats) {
@@ -103,7 +103,7 @@ public class StatsCalculationServiceImpl implements StatsCalculationService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.n26.challenge.stats.service.StatsCalculationService#readStatistics()
+	 * @see com.banking.challenge.stats.service.StatsCalculationService#readStatistics()
 	 */
 	@Override
 	public Statistics readStatistics() {
